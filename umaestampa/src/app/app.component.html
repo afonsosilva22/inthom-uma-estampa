@@ -3,10 +3,10 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+          <ion-list-header>Uma Estampa</ion-list-header>
+          <ion-note>uma.estampa&#64;gmail.com</ion-note>
 
-          @for (p of appPages; track p; let i = $index) {
+          @for (p of homePage; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
@@ -14,16 +14,56 @@
               </ion-item>
             </ion-menu-toggle>
           }
-        </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-accordion-group>
+            <ion-accordion value="designs">
 
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
+              <ion-item slot="header" lines="none">
+                <ion-icon slot="start" ios="color-palette-outline" md="color-palette-sharp"></ion-icon>
+                <ion-label>Designs</ion-label>
+              </ion-item>
+
+              <div slot="content">
+                @for (p of designPages; track p; let i = $index) {
+                  <ion-menu-toggle auto-hide="false">
+                    <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                      <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                      <ion-label>{{ p.title }}</ion-label>
+                    </ion-item>
+                  </ion-menu-toggle>
+                }
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+
+          <ion-accordion-group>
+            <ion-accordion value="orders">
+
+              <ion-item slot="header" lines="none">
+                <ion-icon slot="start" ios="cart-outline" md="cart-sharp"></ion-icon>
+                <ion-label>Orders</ion-label>
+              </ion-item>
+
+              <div slot="content">
+                @for (p of orderPages; track p; let i = $index) {
+                  <ion-menu-toggle auto-hide="false">
+                    <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                      <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                      <ion-label>{{ p.title }}</ion-label>
+                    </ion-item>
+                  </ion-menu-toggle>
+                }
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+
+          @for (p of communityPage; track p; let i = $index) {
+            <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
           }
         </ion-list>
       </ion-content>
