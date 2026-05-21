@@ -42,6 +42,10 @@ const routes: Routes = [
   {
     path: 'community',
     loadChildren: () => import('./community/community.module').then( m => m.CommunityPageModule)
+  },
+  {
+    path: 'edit-design',
+    loadChildren: () => import('./edit-design/edit-design.module').then( m => m.EditDesignPageModule)
   }
 ];
 
