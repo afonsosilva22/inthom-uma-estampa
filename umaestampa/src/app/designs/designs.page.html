@@ -3,14 +3,94 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>designs</ion-title>
+    <ion-title color="orange"><strong>Uma Estampa</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">designs</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+  <!-- SUB HEADER -->
+  <ion-toolbar>
+    <ion-title color="dark" size="large"><strong>Os meus designs</strong></ion-title>
+    <ion-buttons slot="end" *ngIf="designs.length > 0">
+      <ion-button shape="round" routerLink="/create-design" class="new-design-btn">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Criar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- NÃO EXISTEM DESIGNS -->
+  <div *ngIf="designs.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <ion-icon name="eye-outline"></ion-icon>
+    </div>
+    <h3>Ainda não tens designs</h3>
+    <ion-button routerLink="/create-design" color="orange" expand="block" shape="round">
+      Criar Design
+    </ion-button>
+  </div>
+
+  <!-- DISPLAY DE DESIGNS -->
+  <ion-grid *ngIf="designs.length > 0" class="designs-grid">
+    <ion-row>
+      <ion-col *ngFor="let design of designs" size="12" size-md="6" size-lg="4">
+        <ion-card class="design-card" [class.deleting]="deletingId === design.id">
+
+          <!-- IMAGEM -->
+          <div class="design-preview">
+            <img *ngIf="design.imageUrl" [src]="design.imageUrl" [alt]="design.productName" />
+            <div *ngIf="!design.imageUrl" class="no-image">
+              <ion-icon name="image-outline"></ion-icon>
+            </div>
+            <ion-badge *ngIf="design.isPublic" color="success" class="public-badge" style="color: white;">
+              Público
+            </ion-badge>
+          </div>
+
+          <!-- CONTEÚDO -->
+          <ion-card-content class="card-body">
+            <h3 class="design-title">{{ design.productName }}</h3>
+
+            <div class="design-meta">
+              <span class="color-swatch" [style.background-color]="design.color"></span>
+              <span>{{ design.size }}</span>
+              <span class="dot">•</span>
+              <span class="price">{{ design.price.toFixed(2) }}€</span>
+            </div>
+
+            <!-- AÇÕES -->
+            <div class="action-row">
+              <ion-button
+                fill="outline"
+                size="small"
+                color="medium"
+                (click)="handleTogglePublic(design.id, design.isPublic)"
+                [title]="design.isPublic ? 'Tornar privado' : 'Tornar público'">
+                <ion-icon slot="icon-only" [name]="design.isPublic ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </ion-button>
+
+              <ion-button fill="outline" size="small" color="medium" (click)="handleEdit(design)" title="Editar">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+
+              <ion-button fill="solid" size="small" color="orange" (click)="handleOrder(design)" title="Encomendar">
+                <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+              </ion-button>
+
+              <ion-button
+                fill="outline"
+                size="small"
+                color="danger"
+                (click)="handleDelete(design.id)"
+                [disabled]="deletingId === design.id"
+                title="Eliminar">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
