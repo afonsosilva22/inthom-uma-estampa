@@ -11,14 +11,14 @@ export class AppComponent {
   ]
 
   public designPages = [
-    { title: 'Create Design', url: '/create-design', icon: 'create' },
-    { title: 'My Designs', url: '/designs', icon: 'images' },
-    { title: 'Drafts', url: '/drafts', icon: 'document' },
+    { title: 'Create Design', url: '/create-design' },
+    { title: 'My Designs', url: '/designs' },
+    { title: 'Drafts', url: '/drafts' },
   ]
 
   public orderPages = [
-    { title: 'Create Order', url: '/create-order', icon: 'create' },
-    { title: 'My Orders', url: '/orders', icon: 'list' },
+    { title: 'Create Order', url: '/create-order' },
+    { title: 'My Orders', url: '/orders' },
   ]
 
   public communityPage = [
