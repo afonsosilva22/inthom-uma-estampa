@@ -3,8 +3,7 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Uma Estampa</ion-list-header>
-          <ion-note>uma.estampa&#64;gmail.com</ion-note>
+          <ion-list-header style="color: var(--ion-color-orange);"><strong>Uma Estampa</strong></ion-list-header>
 
           @for (p of homePage; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
@@ -41,7 +40,7 @@
 
               <ion-item slot="header" lines="none">
                 <ion-icon slot="start" ios="cart-outline" md="cart-sharp"></ion-icon>
-                <ion-label>Orders</ion-label>
+                <ion-label>Encomendas</ion-label>
               </ion-item>
 
               <div slot="content">

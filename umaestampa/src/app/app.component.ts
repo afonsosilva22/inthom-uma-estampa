@@ -11,18 +11,18 @@ export class AppComponent {
   ]
 
   public designPages = [
-    { title: 'Create Design', url: '/create-design' },
-    { title: 'My Designs', url: '/designs' },
-    { title: 'Drafts', url: '/drafts' },
+    { title: 'Criar novo Design', url: '/create-design' },
+    { title: 'Os meus Designs', url: '/designs' },
+    { title: 'Rascunhos', url: '/drafts' },
   ]
 
   public orderPages = [
-    { title: 'Create Order', url: '/create-order' },
-    { title: 'My Orders', url: '/orders' },
+    { title: 'Encomendar design', url: '/create-order' },
+    { title: 'As minhas Encomendas', url: '/orders' },
   ]
 
   public communityPage = [
-    { title: 'Community', url: '/community', icon: 'people' }
+    { title: 'Comunidade', url: '/community', icon: 'people' }
   ]
   constructor() {}
 }
