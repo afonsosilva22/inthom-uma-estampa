@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { Design, Designs } from '../services/designs';
 
 @Component({
   selector: 'app-drafts',
@@ -8,9 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DraftsPage implements OnInit {
 
-  constructor() { }
+  drafts: Design[] = [];
 
-  ngOnInit() {
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private designService: Designs
+  ) { }
+
+  handleEdit(draft: Design) {
+    this.router.navigate(['/designs/customize'], {
+      state: { design: draft }
+    });
   }
 
+  async handleDelete(id: string) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar rascunho',
+      message: 'Tens a certeza que queres eliminar este rascunho?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.drafts = this.drafts.filter(d => d.id !== id);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  ngOnInit() {
+    this.drafts = this.designService.getDrafts();
+  }
 }

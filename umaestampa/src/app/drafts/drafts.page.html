@@ -8,9 +8,69 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">drafts</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <!-- SUB HEADER -->
+  <ion-toolbar>
+    <ion-title color="dark" size="large"><strong>Rascunhos</strong></ion-title>
+  </ion-toolbar>
+
+  <!-- NÃO EXISTEM RASCUNHOS -->
+  <div *ngIf="drafts.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <ion-icon name="document-text-outline"></ion-icon>
+    </div>
+    <h3>Nenhum rascunho guardado</h3>
+    <ion-button routerLink="/designs/create-design" shape="round" class="create-btn">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Criar design
+    </ion-button>
+  </div>
+
+  <!-- CONTAGEM E DISPLAY DE RASCUNHOS -->
+  <div *ngIf="drafts.length > 0">
+    <p class="drafts-count">
+      {{ drafts.length }} {{ drafts.length === 1 ? 'rascunho' : 'rascunhos' }} guardados
+    </p>
+
+    <ion-grid class="drafts-grid">
+      <ion-row>
+        <ion-col *ngFor="let draft of drafts" size="12" size-md="6" size-lg="4">
+          <ion-card class="draft-card">
+
+            <!-- IMAGEM -->
+            <div class="draft-preview" [style.background-color]="draft.color">
+              <img *ngIf="draft.imageUrl" [src]="draft.imageUrl" [alt]="draft.productName" />
+              <div *ngIf="!draft.imageUrl" class="no-image">
+                <ion-icon name="document-text-outline"></ion-icon>
+              </div>
+              <ion-badge color="primary" class="draft-badge">Rascunho</ion-badge>
+            </div>
+
+            <!-- CONTEÚDO -->
+            <ion-card-content class="card-body">
+              <h3 class="draft-title">{{ draft.productName }}</h3>
+              <p class="draft-meta">
+                <span *ngIf="draft.size">{{ draft.size }} • </span>
+                {{ draft.price.toFixed(2) }}€
+              </p>
+
+              <!-- AÇÕES -->
+              <div class="action-row">
+                <ion-button class="continue-btn" (click)="handleEdit(draft)">
+                  <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                  Continuar
+                </ion-button>
+                <ion-button fill="outline" color="danger" (click)="handleDelete(draft.id)">
+                  <ion-icon slot="start" name="trash-outline"></ion-icon>
+                  Eliminar
+                </ion-button>
+              </div>
+            </ion-card-content>
+
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
 </ion-content>
