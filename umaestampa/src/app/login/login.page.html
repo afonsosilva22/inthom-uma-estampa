@@ -1,15 +1,94 @@
-<ion-header>
-</ion-header>
+<ion-content [fullscreen]="true">
 
-<ion-content>
-  <div id="container" class="ion-padding">
-    <div class="ion-margin-bottom">
-      <ion-text color="danger">
-        Exemplo de substituição do ecrã de entrada no template sidemenu
-      </ion-text>
+  <div class="auth-container">
+    <div class="auth-card">
+
+      <!-- LOGO -->
+      <div class="logo">
+        <h1>UmaEstampa</h1>
+        <p>Personaliza os teus produtos</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button [class.active]="isLogin" (click)="isLogin = true">Login</button>
+        <button [class.active]="!isLogin" (click)="isLogin = false">Registar</button>
+      </div>
+
+      <!-- FORMULÁRIO DE LOGIN -->
+      <div *ngIf="isLogin" class="form">
+        <div class="field">
+          <label>Email</label>
+          <ion-input
+            type="email"
+            placeholder="email@exemplo.com"
+            [(ngModel)]="email"
+            fill="outline"
+          ></ion-input>
+        </div>
+
+        <div class="field">
+          <label>Palavra-passe</label>
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            fill="outline"
+          >
+            <ion-button fill="clear" slot="end" (click)="showPassword = !showPassword">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </ion-button>
+          </ion-input>
+        </div>
+
+        <ion-button expand="block" class="submit-btn" routerLink="/home">
+          Entrar
+        </ion-button>
+      </div>
+
+      <!-- FORMULÁRIO DE REGISTO -->
+      <div *ngIf="!isLogin" class="form">
+        <div class="field">
+          <label>Nome de utilizador</label>
+          <ion-input
+            type="text"
+            placeholder="O teu nome de utilizador"
+            [(ngModel)]="username"
+            fill="outline"
+          ></ion-input>
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <ion-input
+            type="email"
+            placeholder="email@exemplo.com"
+            [(ngModel)]="email"
+            fill="outline"
+          ></ion-input>
+        </div>
+
+        <div class="field">
+          <label>Palavra-passe</label>
+          <ion-input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            fill="outline"
+          >
+            <ion-button fill="clear" slot="end" (click)="showPassword = !showPassword">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </ion-button>
+          </ion-input>
+        </div>
+
+        <!-- Does nothing -->
+        <ion-button expand="block" class="submit-btn">
+          Criar conta
+        </ion-button>
+      </div>
+
     </div>
-    <ion-button shape="round" routerLink="/home">
-      Entrar
-    </ion-button>
   </div>
+
 </ion-content>

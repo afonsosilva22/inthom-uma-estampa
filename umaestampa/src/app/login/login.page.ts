@@ -8,6 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
+  isLogin: boolean = true;
+  email: string = '';
+  password: string = '';
+  username: string = '';
+  showPassword: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
