@@ -20,7 +20,7 @@ export class DraftsPage implements OnInit {
   ) { }
 
   handleEdit(draft: Design) {
-    this.router.navigate(['/designs/customize'], {
+    this.router.navigate(['/edit-design'], {
       state: { design: draft }
     });
   }
