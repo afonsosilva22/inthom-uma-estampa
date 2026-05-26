@@ -8,9 +8,52 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">create-design</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <ion-toolbar>
+    <ion-title color="dark" size="large"><strong>Criar novo design</strong></ion-title>
+  </ion-toolbar>
+
+  <div class="page-container">
+
+    <p class="subtitle">Escolhe o produto que queres personalizar</p>
+
+    <!-- Products Grid -->
+    <ion-grid class="products-grid">
+      <ion-row>
+        <ion-col *ngFor="let product of products" size="12" size-md="6" size-lg="3">
+          <div
+            class="product-card"
+            [class.selected]="selectedProduct?.id === product.id"
+            (click)="selectProduct(product)"
+          >
+            <!-- Checkmark when selected -->
+            <div *ngIf="selectedProduct?.id === product.id" class="check-badge">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+
+            <!-- Product Image -->
+            <div class="product-image">
+              <img [src]="product.imageUrl" [alt]="product.name" />
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <p>A partir de {{ product.basePrice.toFixed(2) }}€</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Continue Button -->
+    <div *ngIf="selectedProduct" class="continue-container">
+      <ion-button expand="block" class="continue-btn" (click)="handleNext()">
+        Continuar
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+
 </ion-content>
