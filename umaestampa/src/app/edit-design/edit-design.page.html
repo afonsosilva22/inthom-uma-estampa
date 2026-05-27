@@ -1,16 +1,111 @@
+<!-- edit-design.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title color="orange"><strong>Uma Estampa</strong></ion-title>
+    <ion-title>{{ existingDesign ? 'Editar' : 'Personalizar' }} {{ product?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">edit-design</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" *ngIf="product && selectedVariant">
+
+  <!-- PRÉ-VISUALIZAÇÃO DO PRODUTO -->
+  <div class="preview-container">
+    <div class="product-preview">
+      <!-- Imagem base do produto na cor selecionada -->
+      <img class="product-layer" [src]="selectedVariant.imageUrl" [alt]="product.name" />
+      <!-- Imagem do utilizador por cima -->
+      <img *ngIf="uploadedImageUrl" class="design-layer" [src]="uploadedImageUrl" alt="Design" />
+    </div>
+  </div>
+
+  <div class="options-container">
+
+    <!-- CARREGAR IMAGEM -->
+    <ion-card class="option-card">
+      <ion-card-content>
+        <h3 class="option-title">Carregar imagem</h3>
+        <div class="upload-btn" (click)="handleImageUpload()">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+          <span>{{ uploadedImageUrl ? 'Mudar imagem' : 'Escolher imagem' }}</span>
+        </div>
+        <p class="upload-hint">Formatos aceites: JPG, PNG, SVG</p>
+        <ion-button
+          *ngIf="uploadedImageUrl"
+          fill="outline"
+          color="danger"
+          expand="block"
+          (click)="removeImage()"
+          class="remove-btn"
+        >
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Remover imagem
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- COR DO PRODUTO -->
+    <ion-card class="option-card">
+      <ion-card-content>
+        <h3 class="option-title">Cor do produto</h3>
+        <div class="variants-row">
+          <div
+            *ngFor="let variant of product.variants"
+            class="color-swatch"
+            [class.selected]="selectedVariant.color === variant.color"
+            [style.background-color]="variant.color"
+            [title]="variant.colorName"
+            (click)="selectVariant(variant)"
+          >
+            <ion-icon *ngIf="selectedVariant.color === variant.color" name="checkmark-outline"></ion-icon>
+          </div>
+        </div>
+        <p class="selected-color-name">{{ selectedVariant.colorName }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- TAMANHO -->
+    <ion-card class="option-card" *ngIf="product.sizes && product.sizes.length > 0">
+      <ion-card-content>
+        <h3 class="option-title">Tamanho</h3>
+        <div class="sizes-row">
+          <div
+            *ngFor="let size of product.sizes"
+            class="size-btn"
+            [class.selected]="selectedSize === size"
+            (click)="selectSize(size)"
+          >
+            {{ size }}
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- PREÇO -->
+    <ion-card class="option-card">
+      <ion-card-content>
+        <div class="price-row">
+          <span class="price-label">Preço</span>
+          <span class="price-value">{{ price.toFixed(2) }}€</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="action-buttons">
+      <ion-button fill="outline" color="medium" expand="block" (click)="handleSaveDraft()">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        Guardar rascunho
+      </ion-button>
+      <ion-button expand="block" class="finish-btn" (click)="handleFinish()">
+        Finalizar
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+
 </ion-content>

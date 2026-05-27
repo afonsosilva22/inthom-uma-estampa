@@ -4,7 +4,7 @@ export interface Design {
   id: string;
   productId: string;
   productName: string;
-  imageUrl: string;
+  imageUrl: string | null;
   color: string;
   colorName: string;
   productImageUrl: string;
@@ -24,7 +24,7 @@ export class Designs {
       id: '1',
       productId: 'prod-001',
       productName: 'T-Shirt',
-      imageUrl: '',
+      imageUrl: null,
       color: '#ffffff',
       colorName: 'Branco',
       productImageUrl: './assets/images/tshirt_white.png',
@@ -37,7 +37,7 @@ export class Designs {
       id: '2',
       productId: 'prod-002',
       productName: 'Hoodie',
-      imageUrl: '',
+      imageUrl: null,
       color: '#0000ff',
       colorName: 'Azul',
       productImageUrl: './assets/images/hoodie_blue.png',
@@ -50,7 +50,7 @@ export class Designs {
       id: '3',
       productId: 'prod-003',
       productName: 'Boné',
-      imageUrl: '',
+      imageUrl: null,
       color: '#000000',
       colorName: 'Preto',
       productImageUrl: './assets/images/cap_black.png',
@@ -63,7 +63,7 @@ export class Designs {
       id: '4',
       productId: 'prod-004',
       productName: 'Capa de Telemóvel',
-      imageUrl: '',
+      imageUrl: null,
       color: '#ff0000',
       colorName: 'Vermelho',
       productImageUrl: './assets/images/phone_case_red.png',
@@ -76,7 +76,7 @@ export class Designs {
       id: '5',
       productId: 'prod-005',
       productName: 'Caneca',
-      imageUrl: '',
+      imageUrl: null,
       color: '#0000ff',
       colorName: 'Azul',
       productImageUrl: './assets/images/mug_blue.png',
@@ -89,7 +89,7 @@ export class Designs {
       id: '6',
       productId: 'prod-001',
       productName: 'T-Shirt',
-      imageUrl: '',
+      imageUrl: null,
       color: '#ffffff',
       colorName: 'Branco',
       productImageUrl: './assets/images/tshirt_white.png',
@@ -102,7 +102,7 @@ export class Designs {
       id: '7',
       productId: 'prod-002',
       productName: 'Hoodie',
-      imageUrl: '',
+      imageUrl: null,
       color: '#0000ff',
       colorName: 'Azul',
       productImageUrl: './assets/images/hoodie_blue.png',
@@ -115,7 +115,7 @@ export class Designs {
       id: '8',
       productId: 'prod-004',
       productName: 'Capa de Telemóvel',
-      imageUrl: '',
+      imageUrl: null,
       color: '#ff0000',
       colorName: 'Vermelho',
       productImageUrl: './assets/images/phone_case_red.png',
@@ -128,7 +128,7 @@ export class Designs {
       id: '9',
       productId: 'prod-005',
       productName: 'Caneca',
-      imageUrl: '',
+      imageUrl: null,
       color: '#ff0000',
       colorName: 'Vermelho',
       productImageUrl: './assets/images/mug_red.png',
@@ -141,7 +141,7 @@ export class Designs {
       id: '10',
       productId: 'prod-003',
       productName: 'Boné',
-      imageUrl: '',
+      imageUrl: null,
       color: '#000000',
       colorName: 'Preto',
       productImageUrl: './assets/images/cap_black.png',
