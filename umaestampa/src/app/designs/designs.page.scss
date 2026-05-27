@@ -60,28 +60,23 @@
   .design-preview {
     position: relative;
     aspect-ratio: 1 / 1;
-    background: var(--ion-color-light);
     overflow: hidden;
 
-    img {
+    .product-layer {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .no-image {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      ion-icon {
-        font-size: 40px;
-        color: var(--ion-color-medium);
-        opacity: 0.4;
-      }
+    .design-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%;
+      height: 50%;
+      object-fit: contain;
     }
 
     .public-badge {

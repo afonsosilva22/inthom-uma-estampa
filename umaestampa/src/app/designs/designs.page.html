@@ -39,10 +39,11 @@
 
           <!-- IMAGEM -->
           <div class="design-preview">
-            <img *ngIf="design.imageUrl" [src]="design.imageUrl" [alt]="design.productName" />
-            <div *ngIf="!design.imageUrl" class="no-image">
-              <ion-icon name="image-outline"></ion-icon>
-            </div>
+            <!-- Imagem base do produto -->
+            <img class="product-layer" [src]="design.productImageUrl" [alt]="design.productName" />
+            <!-- Imagem do utilizador por cima, só aparece se existir -->
+            <img *ngIf="design.imageUrl" class="design-layer" [src]="design.imageUrl" [alt]="design.productName" />
+
             <ion-badge *ngIf="design.isPublic" color="success" class="public-badge" style="color: white;">
               Público
             </ion-badge>
@@ -54,6 +55,8 @@
 
             <div class="design-meta">
               <span class="color-swatch" [style.background-color]="design.color"></span>
+              <span>{{ design.colorName }}</span>
+              <span class="dot">•</span>
               <span>{{ design.size }}</span>
               <span class="dot">•</span>
               <span class="price">{{ design.price.toFixed(2) }}€</span>

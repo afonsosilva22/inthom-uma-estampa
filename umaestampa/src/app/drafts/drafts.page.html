@@ -39,10 +39,13 @@
 
             <!-- IMAGEM -->
             <div class="draft-preview" [style.background-color]="draft.color">
-              <img *ngIf="draft.imageUrl" [src]="draft.imageUrl" [alt]="draft.productName" />
-              <div *ngIf="!draft.imageUrl" class="no-image">
+              <img *ngIf="draft.productImageUrl" class="product-layer" [src]="draft.productImageUrl" [alt]="draft.productName" />
+              <img *ngIf="draft.imageUrl" class="design-layer" [src]="draft.imageUrl" [alt]="draft.productName" />
+              
+              <div *ngIf="!draft.productImageUrl && !draft.imageUrl" class="no-image">
                 <ion-icon name="document-text-outline"></ion-icon>
               </div>
+              
               <ion-badge color="primary" class="draft-badge">Rascunho</ion-badge>
             </div>
 
