@@ -99,7 +99,7 @@ export class Products {
       {
         color: '#ffffff',
         colorName: 'Branco',
-        imageUrl: './assets/images/cap_white.png',
+        imageUrl: './assets/images/cap_white.jpg',
       },
       {
         color: '#000000',
@@ -167,7 +167,7 @@ export class Products {
       {
         color: '#ffffff',
         colorName: 'Branco',
-        imageUrl: './assets/images/mug_white.png',
+        imageUrl: './assets/images/mug_white.jpg',
       },
       {
         color: '#000000',
