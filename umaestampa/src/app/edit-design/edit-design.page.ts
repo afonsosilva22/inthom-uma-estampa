@@ -15,7 +15,6 @@ export class EditDesignPage implements OnInit {
 
   product: Product | null = null;
   existingDesign: Design | null = null;
-
   selectedVariant: ProductVariant | null = null;
   selectedSize: string = '';
   uploadedImageUrl: string | null = null;
@@ -26,7 +25,7 @@ export class EditDesignPage implements OnInit {
     private alertController: AlertController,
     private designService: Designs,
     private photoService: PhotoService
-  ) { }
+  ) {}
 
   ngOnInit() {
     const state = this.router.getCurrentNavigation()?.extras.state as {
@@ -39,19 +38,19 @@ export class EditDesignPage implements OnInit {
       this.existingDesign = state.design || null;
 
       if (this.existingDesign) {
+        // Encontra a variante pelo variantId guardado no design
         this.selectedVariant = this.product.variants.find(
-          v => v.color === this.existingDesign!.color
+          v => v.id === this.existingDesign!.variantId
         ) || this.product.variants[0];
         this.selectedSize = this.existingDesign.size;
-        this.uploadedImageUrl = this.existingDesign.imageUrl;
+        this.uploadedImageUrl = this.existingDesign.uploadedImageUrl;
       } else {
         this.selectedVariant = this.product.variants[0];
-        this.selectedSize = this.product.sizes?.[0] || 'M';
+        this.selectedSize = this.product.sizes[0] || 'M';
       }
 
       this.calculatePrice();
     } else {
-      // Se não houver produto, volta para a página de criar design
       this.router.navigate(['/create-design']);
     }
   }
@@ -74,7 +73,6 @@ export class EditDesignPage implements OnInit {
 
   async handleImageUpload() {
     await this.photoService.addNewToGallery();
-
     const latest = this.photoService.photos[0];
     if (latest?.webviewPath) {
       this.uploadedImageUrl = latest.webviewPath;
@@ -82,20 +80,16 @@ export class EditDesignPage implements OnInit {
   }
 
   removeImage() {
-    this.uploadedImageUrl = '';
+    this.uploadedImageUrl = null;
   }
 
   buildDesignObject(status: 'draft' | 'completed'): Design {
     return {
       id: this.existingDesign?.id || `design-${Date.now()}`,
       productId: this.product!.id,
-      productName: this.product!.name,
-      imageUrl: this.uploadedImageUrl,
-      color: this.selectedVariant!.color,
-      colorName: this.selectedVariant!.colorName,
-      productImageUrl: this.selectedVariant!.imageUrl,
+      variantId: this.selectedVariant!.id,       // só guarda o id da variante
+      uploadedImageUrl: this.uploadedImageUrl,    // imagem do utilizador ou null
       size: this.selectedSize,
-      price: this.price,
       isPublic: this.existingDesign?.isPublic || false,
       status: status,
     };
@@ -103,13 +97,11 @@ export class EditDesignPage implements OnInit {
 
   async handleSaveDraft() {
     const design = this.buildDesignObject('draft');
-
     if (this.existingDesign) {
       this.designService.update(this.existingDesign.id, design);
     } else {
       this.designService.add(design);
     }
-
     this.router.navigate(['/drafts']);
   }
 
@@ -125,13 +117,11 @@ export class EditDesignPage implements OnInit {
     }
 
     const design = this.buildDesignObject('completed');
-
     if (this.existingDesign) {
       this.designService.update(this.existingDesign.id, design);
     } else {
       this.designService.add(design);
     }
-
     this.router.navigate(['/designs']);
   }
 

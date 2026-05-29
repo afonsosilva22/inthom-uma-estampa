@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+
   <!-- SUB HEADER -->
   <ion-toolbar>
     <ion-title color="dark" size="large"><strong>Os meus designs</strong></ion-title>
-    <ion-buttons slot="end" *ngIf="designs.length > 0">
+    <ion-buttons slot="end" *ngIf="displayDesigns.length > 0">
       <ion-button shape="round" routerLink="/create-design" class="new-design-btn">
         <ion-icon slot="start" name="add-outline"></ion-icon>
         Criar
@@ -21,7 +21,7 @@
   </ion-toolbar>
 
   <!-- NÃO EXISTEM DESIGNS -->
-  <div *ngIf="designs.length === 0" class="empty-state">
+  <div *ngIf="displayDesigns.length === 0" class="empty-state">
     <div class="empty-icon">
       <ion-icon name="eye-outline"></ion-icon>
     </div>
@@ -32,34 +32,34 @@
   </div>
 
   <!-- DISPLAY DE DESIGNS -->
-  <ion-grid *ngIf="designs.length > 0" class="designs-grid">
+  <ion-grid *ngIf="displayDesigns.length > 0" class="designs-grid">
     <ion-row>
-      <ion-col *ngFor="let design of designs" size="12" size-md="6" size-lg="4">
-        <ion-card class="design-card" [class.deleting]="deletingId === design.id">
+      <ion-col *ngFor="let item of displayDesigns" size="12" size-md="6" size-lg="4">
+        <ion-card class="design-card" [class.deleting]="deletingId === item.design.id">
 
           <!-- IMAGEM -->
           <div class="design-preview">
-            <!-- Imagem base do produto -->
-            <img class="product-layer" [src]="design.productImageUrl" [alt]="design.productName" />
+            <!-- Imagem base do produto na cor da variante -->
+            <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
             <!-- Imagem do utilizador por cima, só aparece se existir -->
-            <img *ngIf="design.imageUrl" class="design-layer" [src]="design.imageUrl" [alt]="design.productName" />
+            <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
 
-            <ion-badge *ngIf="design.isPublic" color="success" class="public-badge" style="color: white;">
+            <ion-badge *ngIf="item.design.isPublic" color="success" class="public-badge" style="color: white;">
               Público
             </ion-badge>
           </div>
 
           <!-- CONTEÚDO -->
           <ion-card-content class="card-body">
-            <h3 class="design-title">{{ design.productName }}</h3>
+            <h3 class="design-title">{{ item.product.name }}</h3>
 
             <div class="design-meta">
-              <span class="color-swatch" [style.background-color]="design.color"></span>
-              <span>{{ design.colorName }}</span>
+              <span class="color-swatch" [style.background-color]="item.variant.color"></span>
+              <span>{{ item.variant.colorName }}</span>
               <span class="dot">•</span>
-              <span>{{ design.size }}</span>
+              <span>{{ item.design.size }}</span>
               <span class="dot">•</span>
-              <span class="price">{{ design.price.toFixed(2) }}€</span>
+              <span class="price">{{ getPrice(item).toFixed(2) }}€</span>
             </div>
 
             <!-- AÇÕES -->
@@ -68,16 +68,16 @@
                 fill="outline"
                 size="small"
                 color="medium"
-                (click)="handleTogglePublic(design.id, design.isPublic)"
-                [title]="design.isPublic ? 'Tornar privado' : 'Tornar público'">
-                <ion-icon slot="icon-only" [name]="design.isPublic ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                (click)="handleTogglePublic(item.design.id, item.design.isPublic)"
+                [title]="item.design.isPublic ? 'Tornar privado' : 'Tornar público'">
+                <ion-icon slot="icon-only" [name]="item.design.isPublic ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
               </ion-button>
 
-              <ion-button fill="outline" size="small" color="medium" (click)="handleEdit(design)" title="Editar">
+              <ion-button fill="outline" size="small" color="medium" (click)="handleEdit(item)" title="Editar">
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>
               </ion-button>
 
-              <ion-button fill="solid" size="small" color="orange" (click)="handleOrder(design)" title="Encomendar">
+              <ion-button fill="solid" size="small" color="warning" (click)="handleOrder(item)" title="Encomendar">
                 <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
               </ion-button>
 
@@ -85,8 +85,8 @@
                 fill="outline"
                 size="small"
                 color="danger"
-                (click)="handleDelete(design.id)"
-                [disabled]="deletingId === design.id"
+                (click)="handleDelete(item.design.id)"
+                [disabled]="deletingId === item.design.id"
                 title="Eliminar">
                 <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
               </ion-button>
@@ -96,4 +96,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
 </ion-content>

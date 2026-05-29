@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Design, Designs } from '../services/designs';
+import { Product, ProductVariant, Products } from '../services/products';
+
+// Interface local só para o display — junta o Design com a info do produto
+export interface DesignDisplay {
+  design: Design;
+  product: Product;
+  variant: ProductVariant;
+}
 
 @Component({
   selector: 'app-designs',
@@ -9,39 +17,59 @@ import { Design, Designs } from '../services/designs';
   styleUrls: ['./designs.page.scss'],
   standalone: false,
 })
-
 export class DesignsPage implements OnInit {
 
-  // Guarda o id do design que está a ser eliminado para ativar a animação de fade-out.
-  // null significa que nada está a ser eliminado.
   deletingId: string | null = null;
+  displayDesigns: DesignDisplay[] = [];
 
-  designs: Design[] = [];
-
-  // Router permite navegar entre páginas, AlertController mostra popups de confirmação.
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private designService: Designs
-  ) { }
+    private designsService: Designs,
+    private productService: Products
+  ) {}
 
-  // Encontra o design pelo id e inverte o valor de isPublic.
-  handleTogglePublic(id: string, isPublic: boolean) {
-    const design = this.designs.find(d => d.id === id);
-    if (design) {
-      design.isPublic = !isPublic;
-    }
+  ngOnInit() {
+    this.loadDesigns();
   }
 
-  // Navega para a página de edição, passando o design através do estado do router.
-  handleEdit(design: Design) {
+  loadDesigns() {
+    const designs = this.designsService.getDesigns();
+
+    // Para cada design, vai buscar o produto e a variante correspondente
+    this.displayDesigns = designs
+      .map(design => {
+        const product = this.productService.getById(design.productId);
+        const variant = product?.variants.find(v => v.id === design.variantId);
+        if (!product || !variant) return null;
+        return { design, product, variant };
+      })
+      .filter(d => d !== null) as DesignDisplay[];
+  }
+
+  getPrice(item: DesignDisplay): number {
+    let price = item.product.basePrice;
+    if (item.design.size === 'XL') price += 2;
+    return price;
+  }
+
+  handleTogglePublic(id: string, isPublic: boolean) {
+    this.designsService.update(id, { isPublic: !isPublic });
+    this.loadDesigns();
+  }
+
+  handleEdit(item: DesignDisplay) {
     this.router.navigate(['/edit-design'], {
-      state: { design }
+      state: { design: item.design, product: item.product }
     });
   }
 
-  // Mostra um diálogo de confirmação antes de eliminar.
-  // async/await porque alertController.create() e alert.present() são promessas.
+  handleOrder(item: DesignDisplay) {
+    this.router.navigate(['/create-order'], {
+      state: { selectedDesign: item.design }
+    });
+  }
+
   async handleDelete(id: string) {
     const alert = await this.alertController.create({
       header: 'Eliminar design',
@@ -52,15 +80,10 @@ export class DesignsPage implements OnInit {
           text: 'Eliminar',
           role: 'destructive',
           handler: () => {
-
-            // Marca como "a eliminar" para que a animação de fade-out seja aplicada ao cartão.
             this.deletingId = id;
-
-            // Aguarda 300ms para a animação terminar e depois remove o design da lista.
-            // .filter() devolve um novo array sem o design eliminado,
-            // o que faz com que o Angular volte a renderizar a lista.
             setTimeout(() => {
-              this.designs = this.designs.filter(d => d.id !== id);
+              this.designsService.delete(id);
+              this.loadDesigns();
               this.deletingId = null;
             }, 300);
           }
@@ -68,16 +91,5 @@ export class DesignsPage implements OnInit {
       ]
     });
     await alert.present();
-  }
-
-  // Navega para a página de criação de encomenda, passando o design pelo estado do router.
-  handleOrder(design: Design) {
-    this.router.navigate(['/create-order'], {
-      state: { selectedDesign: design }
-    });
-  }
-
-  ngOnInit() {
-    this.designs = this.designService.getDesigns();
   }
 }

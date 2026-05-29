@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product, Products } from '../services/products';
+import { Product, ProductVariant, Products } from '../services/products';
 
 @Component({
   selector: 'app-create-design',
@@ -16,7 +16,7 @@ export class CreateDesignPage implements OnInit {
   constructor(
     private router: Router,
     private productService: Products
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.products = this.productService.getProducts();
@@ -24,6 +24,11 @@ export class CreateDesignPage implements OnInit {
 
   selectProduct(product: Product) {
     this.selectedProduct = product;
+  }
+
+  // Devolve a imagem do primeiro variant do produto para usar como thumbnail
+  getProductThumbnail(product: Product): string {
+    return product.variants[0]?.imageUrl || '';
   }
 
   handleNext() {

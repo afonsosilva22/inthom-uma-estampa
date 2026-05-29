@@ -15,54 +15,61 @@
   </ion-toolbar>
 
   <!-- NÃO EXISTEM ENCOMENDAS -->
-  <div *ngIf="orders.length === 0" class="empty-state">
+  <div *ngIf="displayOrders.length === 0" class="empty-state">
     <div class="empty-icon">
       <ion-icon name="bag-outline"></ion-icon>
     </div>
     <h3>Ainda não fizeste nenhuma encomenda</h3>
     <p>Cria um design e faz a tua primeira encomenda</p>
-    <ion-button routerLink="/orders/create" shape="round" class="create-btn">
+    <ion-button routerLink="/create-order" shape="round" class="create-btn">
       Fazer encomenda
     </ion-button>
   </div>
 
   <!-- DISPLAY DE ENCOMENDAS -->
-  <div *ngIf="orders.length > 0" class="orders-container">
+  <div *ngIf="displayOrders.length > 0" class="orders-container">
 
     <p class="orders-count">
-      {{ orders.length }} {{ orders.length === 1 ? 'encomenda' : 'encomendas' }} total
+      {{ displayOrders.length }} {{ displayOrders.length === 1 ? 'encomenda' : 'encomendas' }} total
     </p>
 
-    <ion-card *ngFor="let order of orders" class="order-card">
+    <ion-card *ngFor="let orderDisplay of displayOrders" class="order-card">
       <ion-card-content>
 
         <!-- HEADER DA ENCOMENDA -->
         <div class="order-header">
           <div>
-            <h3 class="order-id">Encomenda #{{ formatId(order.id) }}</h3>
-            <p class="order-date">{{ formatDate(order.orderDate) }}</p>
+            <h3 class="order-id">Encomenda #{{ orderDisplay.order.id }}</h3>
+            <p class="order-date">{{ formatDate(orderDisplay.order.orderDate) }}</p>
           </div>
-          <ion-badge [color]="statusConfig[order.status].color" class="status-badge">
-            <ion-icon [name]="statusConfig[order.status].icon"></ion-icon>
-            {{ statusConfig[order.status].label }}
+          <ion-badge [color]="statusConfig[orderDisplay.order.status].color" class="status-badge">
+            <ion-icon [name]="statusConfig[orderDisplay.order.status].icon"></ion-icon>
+            {{ statusConfig[orderDisplay.order.status].label }}
           </ion-badge>
         </div>
 
         <!-- ITENS DA ENCOMENDA -->
         <div class="order-items">
-          <div *ngFor="let item of order.items" class="order-item">
-            <div class="item-image" [style.background-color]="item.color">
-              <img *ngIf="item.imageUrl" [src]="item.imageUrl" [alt]="item.productName" />
+          <div *ngFor="let item of orderDisplay.items" class="order-item">
+
+            <!-- Imagem base do produto com design por cima -->
+            <div class="item-image">
+              <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
+              <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
             </div>
+
             <div class="item-info">
-              <h4>{{ item.productName }}</h4>
+              <h4>{{ item.product.name }}</h4>
               <p>
-                <span *ngIf="item.size">{{ item.size }} • </span>
-                Quantidade: {{ item.quantity }}
+                <span class="color-dot" [style.background-color]="item.variant.color"></span>
+                {{ item.variant.colorName }}
+                <span *ngIf="item.design.size"> • {{ item.design.size }}</span>
+                • Qtd: {{ item.quantity }}
               </p>
             </div>
+
             <div class="item-price">
-              {{ getItemTotal(item.price, item.quantity) }}€
+              {{ getItemTotal(item) }}€
             </div>
           </div>
         </div>
@@ -70,17 +77,17 @@
         <!-- MORADA DE ENTREGA -->
         <div class="delivery-address">
           <p class="section-label">Morada de entrega</p>
-          <p>{{ order.deliveryAddress.street }}</p>
-          <p>{{ order.deliveryAddress.postalCode }} {{ order.deliveryAddress.city }}</p>
-          <p>{{ order.deliveryAddress.country }}</p>
+          <p>{{ orderDisplay.order.deliveryAddress.street }}</p>
+          <p>{{ orderDisplay.order.deliveryAddress.postalCode }} {{ orderDisplay.order.deliveryAddress.city }}</p>
+          <p>{{ orderDisplay.order.deliveryAddress.country }}</p>
         </div>
 
         <!-- TOTAL DA ENCOMENDA -->
         <div class="order-footer">
-          <span class="payment-method">{{ order.paymentMethod }}</span>
+          <span class="payment-method">{{ orderDisplay.order.paymentMethod }}</span>
           <div class="order-total">
             <span class="total-label">Total</span>
-            <span class="total-amount">{{ order.totalAmount.toFixed(2) }}€</span>
+            <span class="total-amount">{{ orderDisplay.totalAmount.toFixed(2) }}€</span>
           </div>
         </div>
 

@@ -15,7 +15,7 @@
   </ion-toolbar>
 
   <!-- NÃO EXISTEM RASCUNHOS -->
-  <div *ngIf="drafts.length === 0" class="empty-state">
+  <div *ngIf="displayDrafts.length === 0" class="empty-state">
     <div class="empty-icon">
       <ion-icon name="document-text-outline"></ion-icon>
     </div>
@@ -27,43 +27,42 @@
   </div>
 
   <!-- CONTAGEM E DISPLAY DE RASCUNHOS -->
-  <div *ngIf="drafts.length > 0">
+  <div *ngIf="displayDrafts.length > 0">
     <p class="drafts-count">
-      {{ drafts.length }} {{ drafts.length === 1 ? 'rascunho' : 'rascunhos' }} guardados
+      {{ displayDrafts.length }} {{ displayDrafts.length === 1 ? 'rascunho' : 'rascunhos' }} guardados
     </p>
 
     <ion-grid class="drafts-grid">
       <ion-row>
-        <ion-col *ngFor="let draft of drafts" size="12" size-md="6" size-lg="4">
+        <ion-col *ngFor="let item of displayDrafts" size="12" size-md="6" size-lg="4">
           <ion-card class="draft-card">
 
             <!-- IMAGEM -->
-            <div class="draft-preview" [style.background-color]="draft.color">
-              <img *ngIf="draft.productImageUrl" class="product-layer" [src]="draft.productImageUrl" [alt]="draft.productName" />
-              <img *ngIf="draft.imageUrl" class="design-layer" [src]="draft.imageUrl" [alt]="draft.productName" />
-              
-              <div *ngIf="!draft.productImageUrl && !draft.imageUrl" class="no-image">
-                <ion-icon name="document-text-outline"></ion-icon>
-              </div>
-              
+            <div class="draft-preview">
+              <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
+              <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
               <ion-badge color="primary" class="draft-badge">Rascunho</ion-badge>
             </div>
 
             <!-- CONTEÚDO -->
             <ion-card-content class="card-body">
-              <h3 class="draft-title">{{ draft.productName }}</h3>
+              <h3 class="draft-title">{{ item.product.name }}</h3>
               <p class="draft-meta">
-                <span *ngIf="draft.size">{{ draft.size }} • </span>
-                {{ draft.price.toFixed(2) }}€
+                <span class="color-swatch" [style.background-color]="item.variant.color"></span>
+                <span>{{ item.variant.colorName }}</span>
+                <span class="dot">•</span>
+                <span>{{ item.design.size }}</span>
+                <span class="dot">•</span>
+                <span class="price">{{ getPrice(item).toFixed(2) }}€</span>
               </p>
 
               <!-- AÇÕES -->
               <div class="action-row">
-                <ion-button class="continue-btn" (click)="handleEdit(draft)">
+                <ion-button class="continue-btn" (click)="handleEdit(item)">
                   <ion-icon slot="start" name="pencil-outline"></ion-icon>
                   Continuar
                 </ion-button>
-                <ion-button fill="outline" color="danger" (click)="handleDelete(draft.id)">
+                <ion-button fill="outline" color="danger" (click)="handleDelete(item.design.id)">
                   <ion-icon slot="start" name="trash-outline"></ion-icon>
                   Eliminar
                 </ion-button>

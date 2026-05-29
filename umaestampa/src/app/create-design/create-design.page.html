@@ -17,26 +17,26 @@
 
     <p class="subtitle">Escolhe o produto que queres personalizar</p>
 
-    <!-- Products Grid -->
+    <!-- GRELHA DE PRODUTOS -->
     <ion-grid class="products-grid">
       <ion-row>
-        <ion-col *ngFor="let product of products" size="12" size-md="6" size-lg="3">
+        <ion-col *ngFor="let product of products" size="12" size-md="4" size-lg="3">
           <div
             class="product-card"
             [class.selected]="selectedProduct?.id === product.id"
             (click)="selectProduct(product)"
           >
-            <!-- Checkmark when selected -->
+            <!-- Checkmark quando selecionado -->
             <div *ngIf="selectedProduct?.id === product.id" class="check-badge">
               <ion-icon name="checkmark-outline"></ion-icon>
             </div>
 
-            <!-- Product Image -->
+            <!-- Imagem do primeiro variant como thumbnail -->
             <div class="product-image">
-              <img [src]="product.imageUrl" [alt]="product.name" />
+              <img [src]="getProductThumbnail(product)" [alt]="product.name" />
             </div>
 
-            <!-- Product Info -->
+            <!-- Info do produto -->
             <div class="product-info">
               <h3>{{ product.name }}</h3>
               <p>A partir de {{ product.basePrice.toFixed(2) }}€</p>
@@ -46,7 +46,7 @@
       </ion-row>
     </ion-grid>
 
-    <!-- Continue Button -->
+    <!-- BOTÃO CONTINUAR -->
     <div *ngIf="selectedProduct" class="continue-container">
       <ion-button expand="block" class="continue-btn" (click)="handleNext()">
         Continuar

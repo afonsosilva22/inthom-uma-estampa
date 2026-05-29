@@ -3,16 +3,11 @@ import { Injectable } from '@angular/core';
 export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 
 export interface OrderItem {
-  designId: string;
-  productName: string;
-  imageUrl: string;
-  color: string;
-  size: string;
+  designId: string;  
   quantity: number;
-  price: number;
 }
 
-export interface DeliveryAddress {
+export interface Address {
   street: string;
   postalCode: string;
   city: string;
@@ -24,8 +19,7 @@ export interface Order {
   status: OrderStatus;
   orderDate: string;
   items: OrderItem[];
-  deliveryAddress: DeliveryAddress;
-  totalAmount: number;
+  deliveryAddress: Address;
   paymentMethod: string;
 }
 
@@ -36,18 +30,13 @@ export class Orders {
 
   private orders: Order[] = [
   {
-    id: 'ord-00000001',
+    id: '001',
     status: 'delivered',
     orderDate: '2025-03-10',
     items: [
       {
-        designId: '1',
-        productName: 'T-Shirt',
-        imageUrl: './assets/images/tshirt_white.png',
-        color: '#ffffff',
-        size: 'M',
+        designId: 'design-1',
         quantity: 2,
-        price: 24.99,
       }
     ],
     deliveryAddress: {
@@ -56,23 +45,17 @@ export class Orders {
       city: 'Porto',
       country: 'Portugal',
     },
-    totalAmount: 49.98,
     paymentMethod: 'Cartão de crédito',
   },
 
   {
-    id: 'ord-00000002',
+    id: '002',
     status: 'shipped',
     orderDate: '2025-04-02',
     items: [
       {
-        designId: '7',
-        productName: 'Hoodie',
-        imageUrl: './assets/images/hoodie_blue.png',
-        color: '#0000ff',
-        size: 'M',
+        designId: 'design-3',
         quantity: 1,
-        price: 49.99,
       }
     ],
     deliveryAddress: {
@@ -81,32 +64,21 @@ export class Orders {
       city: 'Lisboa',
       country: 'Portugal',
     },
-    totalAmount: 49.99,
     paymentMethod: 'MB Way',
   },
 
   {
-    id: 'ord-00000003',
+    id: '003',
     status: 'processing',
     orderDate: '2025-04-20',
     items: [
       {
-        designId: '5',
-        productName: 'Caneca',
-        imageUrl: './assets/images/mug_blue.png',
-        color: '#0000ff',
-        size: 'Único',
+        designId: 'design-5',
         quantity: 3,
-        price: 14.99,
       },
       {
-        designId: '3',
-        productName: 'Boné',
-        imageUrl: './assets/images/cap_black.png',
-        color: '#000000',
-        size: 'Único',
+        designId: 'design-3',
         quantity: 1,
-        price: 22.00,
       }
     ],
     deliveryAddress: {
@@ -115,32 +87,21 @@ export class Orders {
       city: 'Porto',
       country: 'Portugal',
     },
-    totalAmount: 66.97,
     paymentMethod: 'Transferência bancária',
   },
 
   {
-    id: 'ord-00000004',
-    status: 'pending',
-    orderDate: '2025-05-01',
+    id: '005',
+    status: 'cancelled',
+    orderDate: '2025-02-14',
     items: [
       {
-        designId: '9',
-        productName: 'Caneca',
-        imageUrl: './assets/images/mug_red.png',
-        color: '#ff0000',
-        size: 'Único',
+        designId: 'design-9',
         quantity: 2,
-        price: 14.99,
       },
       {
-        designId: '4',
-        productName: 'Capa de Telemóvel',
-        imageUrl: './assets/images/phone_case_red.png',
-        color: '#ff0000',
-        size: 'Único',
+        designId: 'design-4',
         quantity: 1,
-        price: 18.50,
       }
     ],
     deliveryAddress: {
@@ -149,32 +110,21 @@ export class Orders {
       city: 'Lisboa',
       country: 'Portugal',
     },
-    totalAmount: 48.48,
     paymentMethod: 'MB Way',
   },
 
   {
-    id: 'ord-00000005',
+    id: '006',
     status: 'cancelled',
     orderDate: '2025-02-14',
     items: [
       {
-        designId: '6',
-        productName: 'T-Shirt',
-        imageUrl: './assets/images/tshirt_white.png',
-        color: '#ffffff',
-        size: 'XL',
+        designId: 'design-6',
         quantity: 2,
-        price: 24.99,
       },
       {
-        designId: '10',
-        productName: 'Boné',
-        imageUrl: './assets/images/cap_black.png',
-        color: '#000000',
-        size: 'Único',
+        designId: 'design-10',
         quantity: 1,
-        price: 22.00,
       }
     ],
     deliveryAddress: {
@@ -183,7 +133,6 @@ export class Orders {
       city: 'Porto',
       country: 'Portugal',
     },
-    totalAmount: 71.98,
     paymentMethod: 'Cartão de crédito',
   },
   ];

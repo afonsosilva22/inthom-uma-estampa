@@ -46,20 +46,20 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- COR DO PRODUTO -->
+    <!-- COR DO PRODUTO — only this section changes -->
     <ion-card class="option-card">
       <ion-card-content>
         <h3 class="option-title">Cor do produto</h3>
         <div class="variants-row">
           <div
             *ngFor="let variant of product.variants"
-            class="color-swatch"
-            [class.selected]="selectedVariant.color === variant.color"
-            [style.background-color]="variant.color"
-            [title]="variant.colorName"
-            (click)="selectVariant(variant)"
-          >
-            <ion-icon *ngIf="selectedVariant.color === variant.color" name="checkmark-outline"></ion-icon>
+              class="color-swatch"
+              [class.selected]="selectedVariant.id === variant.id"
+              [style.background-color]="variant.color"
+              [title]="variant.colorName"
+              (click)="selectVariant(variant)"
+            >
+            <ion-icon *ngIf="selectedVariant.id === variant.id" name="checkmark-outline"></ion-icon>
           </div>
         </div>
         <p class="selected-color-name">{{ selectedVariant.colorName }}</p>
