@@ -144,4 +144,8 @@ export class Orders {
   getById(id: string): Order | undefined {
     return this.orders.find(o => o.id === id);
   }
+
+  add(order: Order): void {
+    this.orders.push(order);
+  }
 }

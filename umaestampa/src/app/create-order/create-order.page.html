@@ -8,9 +8,127 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">create-order</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <ion-toolbar>
+    <ion-title color="dark" size="large"><strong>Encomendar design</strong></ion-title>
+  </ion-toolbar>
+
+  <!-- ESTADO VAZIO -->
+  <div *ngIf="displayDesigns.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <ion-icon name="cart-outline"></ion-icon>
+    </div>
+    <h3>Ainda não tens designs para encomendar</h3>
+    <p>Cria e finaliza um design primeiro para poderes fazer uma encomenda</p>
+    <ion-button routerLink="/create-design" shape="round" class="create-btn">
+      Criar design
+    </ion-button>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div *ngIf="displayDesigns.length > 0" class="page-container">
+
+    <!-- SELEÇÃO DE DESIGN -->
+    <div class="section">
+      <h2 class="section-title">Seleciona um design</h2>
+      <ion-grid class="designs-grid">
+        <ion-row>
+          <ion-col *ngFor="let item of displayDesigns" size="6" size-md="4">
+            <div
+              class="design-card"
+              [class.selected]="selectedItem?.design?.id === item.design.id"
+              (click)="selectDesign(item)"
+            >
+              <!-- Checkmark quando selecionado -->
+              <div *ngIf="selectedItem?.design?.id === item.design.id" class="check-badge">
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </div>
+
+              <!-- Imagem -->
+              <div class="design-preview">
+                <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
+                <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
+              </div>
+
+              <!-- Info -->
+              <div class="design-info">
+                <h3>{{ item.product.name }}</h3>
+                <p>
+                  <span *ngIf="item.design.size">{{ item.design.size }} • </span>
+                  {{ getPrice(item).toFixed(2) }}€
+                </p>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- RESUMO DA ENCOMENDA -->
+    <div class="section">
+      <h2 class="section-title">Resumo da encomenda</h2>
+
+      <!-- Nenhum design selecionado -->
+      <ion-card *ngIf="!selectedItem" class="summary-card empty-summary">
+        <ion-card-content>
+          <ion-icon name="cart-outline"></ion-icon>
+          <p>Seleciona um design para começar</p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Design selecionado -->
+      <ion-card *ngIf="selectedItem" class="summary-card">
+        <ion-card-content>
+
+          <!-- Imagem do design selecionado -->
+          <div class="selected-preview">
+            <img class="product-layer" [src]="selectedItem.variant.imageUrl" [alt]="selectedItem.product.name" />
+            <img *ngIf="selectedItem.design.uploadedImageUrl" class="design-layer" [src]="selectedItem.design.uploadedImageUrl" [alt]="selectedItem.product.name" />
+          </div>
+
+          <h3 class="selected-name">{{ selectedItem.product.name }}</h3>
+          <p class="selected-meta">
+            <span class="color-dot" [style.background-color]="selectedItem.variant.color"></span>
+            {{ selectedItem.variant.colorName }}
+            <span *ngIf="selectedItem.design.size"> • {{ selectedItem.design.size }}</span>
+          </p>
+
+          <!-- QUANTIDADE -->
+          <div class="quantity-section">
+            <span class="quantity-label">Quantidade</span>
+            <div class="quantity-controls">
+              <button class="qty-btn" (click)="decreaseQuantity()">−</button>
+              <span class="qty-value">{{ quantity }}</span>
+              <button class="qty-btn" (click)="increaseQuantity()">+</button>
+            </div>
+          </div>
+
+          <!-- TOTAIS -->
+          <div class="totals">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span>{{ getTotal().toFixed(2) }}€</span>
+            </div>
+            <div class="total-row">
+              <span>Envio</span>
+              <span>Grátis</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total</span>
+              <span class="total-amount">{{ getTotal().toFixed(2) }}€</span>
+            </div>
+          </div>
+
+          <!-- BOTÃO FINALIZAR -->
+          <ion-button expand="block" class="order-btn" (click)="handleCreateOrder()">
+            Finalizar encomenda
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+          </ion-button>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+
 </ion-content>
