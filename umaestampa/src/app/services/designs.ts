@@ -32,7 +32,7 @@ export class Designs {
       uploadedImageUrl: null,
       size: 'M',
       isPublic: true,
-      status: 'completed',
+      status: 'draft',
     },
     {
       id: 'design-3',

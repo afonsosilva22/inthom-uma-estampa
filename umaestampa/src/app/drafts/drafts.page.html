@@ -47,14 +47,14 @@
             <!-- CONTEÚDO -->
             <ion-card-content class="card-body">
               <h3 class="draft-title">{{ item.product.name }}</h3>
-              <p class="draft-meta">
+              <div class="draft-meta">
                 <span class="color-swatch" [style.background-color]="item.variant.color"></span>
                 <span>{{ item.variant.colorName }}</span>
                 <span class="dot">•</span>
                 <span>{{ item.design.size }}</span>
                 <span class="dot">•</span>
                 <span class="price">{{ getPrice(item).toFixed(2) }}€</span>
-              </p>
+              </div>
 
               <!-- AÇÕES -->
               <div class="action-row">
