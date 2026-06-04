@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 export interface Design {
   id: string;
@@ -15,98 +17,20 @@ export interface Design {
 })
 export class Designs {
 
-  private designs: Design[] = [
-    {
-      id: 'design-1',
-      productId: 'prod-1',
-      variantId: 'var-1',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-2',
-      productId: 'prod-4',
-      variantId: 'var-4',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'draft',
-    },
-    {
-      id: 'design-3',
-      productId: 'prod-5',
-      variantId: 'var-3',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-4',
-      productId: 'prod-4',
-      variantId: 'var-2',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-5',
-      productId: 'prod-4',
-      variantId: 'var-3',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-6',
-      productId: 'prod-2',
-      variantId: 'var-2',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-7',
-      productId: 'prod-1',
-      variantId: 'var-4',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-8',
-      productId: 'prod-4',
-      variantId: 'var-2',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-9',
-      productId: 'prod-3',
-      variantId: 'var-1',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-    {
-      id: 'design-10',
-      productId: 'prod-4',
-      variantId: 'var-1',
-      uploadedImageUrl: null,
-      size: 'M',
-      isPublic: true,
-      status: 'completed',
-    },
-  ];
+  private designs: Design[] = [];
+
+  constructor(private storage: Storage) {
+    this.init();
+  }
+
+  async init() {
+    await this.storage.defineDriver(CordovaSQLiteDriver);
+    await this.storage.create();
+    const designs = await this.storage.get('designs');
+    if (designs) {
+      this.designs = designs;
+    }
+  }
 
   getDesigns(): Design[] {
     return this.designs.filter(d => d.status === 'completed');
@@ -124,21 +48,27 @@ export class Designs {
     return this.designs;
   }
 
-  add(design: Design): void {
+  async insertDesign(design: Design): Promise<void> {
+    if (!design.id) {
+      design.id = Date.now().toString();
+    }
     this.designs.push(design);
+    await this.storage.set('designs', this.designs);
   }
 
-  update(id: string, changes: Partial<Design>): void {
+  async updateDesign(id: string, changes: Partial<Design>): Promise<void> {
     const design = this.designs.find(d => d.id === id);
     if (design) {
       Object.assign(design, changes);
+      await this.storage.set('designs', this.designs);
     }
   }
 
-  delete(id: string): void {
+  async deleteDesign(id: string): Promise<void> {
     const index = this.designs.findIndex(d => d.id === id);
     if (index >= 0) {
       this.designs.splice(index, 1);
+      await this.storage.set('designs', this.designs);
     }
   }
 }
