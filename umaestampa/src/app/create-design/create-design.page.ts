@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product, ProductVariant, Products } from '../services/products';
 
@@ -8,7 +8,7 @@ import { Product, ProductVariant, Products } from '../services/products';
   styleUrls: ['./create-design.page.scss'],
   standalone: false,
 })
-export class CreateDesignPage implements OnInit {
+export class CreateDesignPage {
 
   products: Product[] = [];
   selectedProduct: Product | null = null;
@@ -18,9 +18,10 @@ export class CreateDesignPage implements OnInit {
     private productService: Products
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this.productService.init();
     this.products = this.productService.getProducts();
-  }
+}
 
   selectProduct(product: Product) {
     this.selectedProduct = product;

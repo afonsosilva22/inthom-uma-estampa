@@ -1,5 +1,5 @@
 // create-order.page.ts
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Design, Designs } from '../services/designs';
@@ -18,7 +18,7 @@ export interface DesignDisplay {
   styleUrls: ['./create-order.page.scss'],
   standalone: false,
 })
-export class CreateOrderPage implements OnInit {
+export class CreateOrderPage {
 
   displayDesigns: DesignDisplay[] = [];
   selectedItem: DesignDisplay | null = null;
@@ -32,7 +32,9 @@ export class CreateOrderPage implements OnInit {
     private orderService: Orders
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this.productService.init();
+    await this.designService.init();
     this.loadDesigns();
   }
 
@@ -98,7 +100,7 @@ export class CreateOrderPage implements OnInit {
       paymentMethod: 'MB Way',
     };
 
-    this.orderService.add(order);
+    await this.orderService.insertOrder(order);
     this.router.navigate(['/orders']);
   }
 }

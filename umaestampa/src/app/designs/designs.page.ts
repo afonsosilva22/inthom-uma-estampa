@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Design, Designs } from '../services/designs';
@@ -17,7 +17,7 @@ export interface DesignDisplay {
   styleUrls: ['./designs.page.scss'],
   standalone: false,
 })
-export class DesignsPage implements OnInit {
+export class DesignsPage {
 
   deletingId: string | null = null;
   displayDesigns: DesignDisplay[] = [];
@@ -25,16 +25,18 @@ export class DesignsPage implements OnInit {
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private designsService: Designs,
+    private designService: Designs,
     private productService: Products
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this.productService.init();
+    await this.designService.init();
     this.loadDesigns();
   }
 
   loadDesigns() {
-    const designs = this.designsService.getDesigns();
+    const designs = this.designService.getDesigns();
 
     // Para cada design, vai buscar o produto e a variante correspondente
     this.displayDesigns = designs
@@ -53,8 +55,8 @@ export class DesignsPage implements OnInit {
     return price;
   }
 
-  handleTogglePublic(id: string, isPublic: boolean) {
-    this.designsService.update(id, { isPublic: !isPublic });
+  async handleTogglePublic(id: string, isPublic: boolean) {
+    await this.designService.updateDesign(id, { isPublic: !isPublic });
     this.loadDesigns();
   }
 
@@ -81,8 +83,8 @@ export class DesignsPage implements OnInit {
           role: 'destructive',
           handler: () => {
             this.deletingId = id;
-            setTimeout(() => {
-              this.designsService.delete(id);
+            setTimeout(async () => {
+              await this.designService.deleteDesign(id);
               this.loadDesigns();
               this.deletingId = null;
             }, 300);

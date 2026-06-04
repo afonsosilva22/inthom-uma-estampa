@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Order, Orders, OrderStatus } from '../services/orders';
 import { Design, Designs } from '../services/designs';
 import { Product, ProductVariant, Products } from '../services/products';
@@ -30,7 +30,7 @@ export interface OrderDisplay {
   styleUrls: ['./orders.page.scss'],
   standalone: false,
 })
-export class OrdersPage implements OnInit {
+export class OrdersPage {
 
   displayOrders: OrderDisplay[] = [];
 
@@ -43,25 +43,28 @@ export class OrdersPage implements OnInit {
   };
 
   constructor(
-    private ordersService: Orders,
-    private designsService: Designs,
-    private productsService: Products
+    private orderService: Orders,
+    private designService: Designs,
+    private productService: Products
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this.productService.init();
+    await this.designService.init();
+    await this.orderService.init();
     this.loadOrders();
   }
 
   loadOrders() {
-    const orders = this.ordersService.getOrders();
+    const orders = this.orderService.getOrders();
 
     this.displayOrders = orders
       .map(order => {
         // Para cada item da encomenda, vai buscar design, produto e variante
         const items: OrderItemDisplay[] = order.items
           .map(item => {
-            const design = this.designsService.getById(item.designId);
-            const product = design ? this.productsService.getById(design.productId) : null;
+            const design = this.designService.getById(item.designId);
+            const product = design ? this.productService.getById(design.productId) : null;
             const variant = product?.variants.find(v => v.id === design?.variantId);
             if (!design || !product || !variant) return null;
             return { design, product, variant, quantity: item.quantity };

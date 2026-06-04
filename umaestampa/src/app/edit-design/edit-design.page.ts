@@ -72,10 +72,9 @@ export class EditDesignPage implements OnInit {
   }
 
   async handleImageUpload() {
-    await this.photoService.addNewToGallery();
-    const latest = this.photoService.photos[0];
-    if (latest?.webviewPath) {
-      this.uploadedImageUrl = latest.webviewPath;
+    const base64Image = await this.photoService.pickPhoto();
+    if (base64Image) {
+      this.uploadedImageUrl = base64Image;
     }
   }
 
@@ -98,9 +97,9 @@ export class EditDesignPage implements OnInit {
   async handleSaveDraft() {
     const design = this.buildDesignObject('draft');
     if (this.existingDesign) {
-      this.designService.update(this.existingDesign.id, design);
+      await this.designService.updateDesign(this.existingDesign.id, design);
     } else {
-      this.designService.add(design);
+      await this.designService.insertDesign(design);
     }
     this.router.navigate(['/drafts']);
   }
@@ -118,9 +117,9 @@ export class EditDesignPage implements OnInit {
 
     const design = this.buildDesignObject('completed');
     if (this.existingDesign) {
-      this.designService.update(this.existingDesign.id, design);
+      await this.designService.updateDesign(this.existingDesign.id, design);
     } else {
-      this.designService.add(design);
+      await this.designService.insertDesign(design);
     }
     this.router.navigate(['/designs']);
   }

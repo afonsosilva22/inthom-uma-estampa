@@ -93,5 +93,10 @@
     font-size: 1rem;
     text-transform: none;
     height: 52px;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 1000;
   }
 }

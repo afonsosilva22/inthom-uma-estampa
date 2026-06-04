@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Design, Designs } from '../services/designs';
@@ -16,23 +16,25 @@ export interface DraftDisplay {
   styleUrls: ['./drafts.page.scss'],
   standalone: false,
 })
-export class DraftsPage implements OnInit {
+export class DraftsPage {
 
   displayDrafts: DraftDisplay[] = [];
 
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private designsService: Designs,
+    private designService: Designs,
     private productService: Products
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    await this.productService.init();
+    await this.designService.init();
     this.loadDrafts();
   }
 
   loadDrafts() {
-    const drafts = this.designsService.getDrafts();
+    const drafts = this.designService.getDrafts();
 
     this.displayDrafts = drafts
       .map(design => {
@@ -65,8 +67,8 @@ export class DraftsPage implements OnInit {
         {
           text: 'Eliminar',
           role: 'destructive',
-          handler: () => {
-            this.designsService.delete(id);
+          handler: async () => {
+            await this.designService.deleteDesign(id);
             this.loadDrafts();
           }
         }
