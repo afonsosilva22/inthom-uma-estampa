@@ -26,7 +26,16 @@ export class Products {
     this.init();
   }
 
-  async init(): Promise<void> {
+  private initPromise: Promise<void> | null = null;
+
+  init(): Promise<void> {
+    if (!this.initPromise) {
+      this.initPromise = this.doInit();
+    }
+    return this.initPromise;
+  }
+
+  private async doInit(): Promise<void> {
     await fetch('./assets/data/products.json')
       .then(res => res.json())
       .then((json: Product[]) => {

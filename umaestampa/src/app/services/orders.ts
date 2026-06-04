@@ -36,7 +36,16 @@ export class Orders {
     this.init();
   }
 
-  async init() {
+  private initPromise: Promise<void> | null = null;
+
+  init(): Promise<void> {
+    if (!this.initPromise) {
+      this.initPromise = this.doInit();
+    }
+    return this.initPromise;
+  }
+
+  private async doInit() {
     await this.storage.defineDriver(CordovaSQLiteDriver);
     await this.storage.create();
     const orders = await this.storage.get('orders');

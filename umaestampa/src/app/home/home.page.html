@@ -3,14 +3,121 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Home</ion-title>
+    <ion-title color="orange"><strong>Uma Estampa</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="dashboard-container">
+    
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1 class="welcome-title">Bem-vindo, {{userName}}! 👋</h1>
+      <p class="welcome-subtitle">Personaliza os teus produtos favoritos com as tuas próprias criações</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <ion-grid class="ion-no-padding stats-grid">
+      <ion-row>
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="stat-card" routerLink="/designs">
+            <div class="icon-box bg-orange">
+              <ion-icon name="color-palette-outline"></ion-icon>
+            </div>
+            <div class="stat-value">{{stats.designs}}</div>
+            <div class="stat-label">Designs criados</div>
+          </div>
+        </ion-col>
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="stat-card" routerLink="/drafts">
+            <div class="icon-box bg-orange">
+              <ion-icon name="trending-up-outline"></ion-icon>
+            </div>
+            <div class="stat-value">{{stats.drafts}}</div>
+            <div class="stat-label">Rascunhos</div>
+          </div>
+        </ion-col>
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="stat-card" routerLink="/orders">
+            <div class="icon-box bg-orange">
+              <ion-icon name="bag-handle-outline"></ion-icon>
+            </div>
+            <div class="stat-value">{{stats.orders}}</div>
+            <div class="stat-label">Encomendas</div>
+          </div>
+        </ion-col>
+        <ion-col size="12" size-sm="6" size-lg="3">
+          <div class="stat-card" routerLink="/community">
+            <div class="icon-box bg-orange">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+            <div class="stat-value">{{stats.publicDesigns}}</div>
+            <div class="stat-label">Designs públicos</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+      <h2 class="section-title">Ações rápidas</h2>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="12" size-md="4">
+            <div class="action-card action-orange" routerLink="/create-design">
+              <ion-icon name="color-palette" class="action-icon" color="tertiary"></ion-icon>
+              <h3 class="action-title">Criar novo design</h3>
+              <p class="action-subtitle">Começa a personalizar um produto agora</p>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-md="4">
+            <div class="action-card action-orange" routerLink="/create-order">
+              <ion-icon name="bag-handle" class="action-icon" color="success"></ion-icon>
+              <h3 class="action-title">Fazer encomenda</h3>
+              <p class="action-subtitle">Escolhe um design e encomenda agora</p>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-md="4">
+            <div class="action-card action-orange" routerLink="/community">
+              <ion-icon name="people" class="action-icon" color="warning"></ion-icon>
+              <h3 class="action-title">Explorar comunidade</h3>
+              <p class="action-subtitle">Descobre designs de outros utilizadores</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- Recent Designs -->
+    <div *ngIf="recentDesigns.length > 0" class="recent-designs-section">
+      <div class="section-header">
+        <h2 class="section-title">Designs recentes</h2>
+        <a routerLink="/designs" class="view-all-link">Ver todos</a>
+      </div>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="12" size-sm="6" size-lg="3" *ngFor="let item of recentDesigns">
+            <div class="recent-design-card">
+              <div class="image-wrapper">
+                <img [src]="item.design.uploadedImageUrl || item.variant.imageUrl" [alt]="item.product.name" />
+              </div>
+              <div class="recent-design-info">
+                <h3 class="product-name">{{item.product.name}}</h3>
+                <p class="product-price">{{item.product.basePrice.toFixed(2)}}€</p>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="recentDesigns.length === 0" class="empty-state">
+      <ion-icon name="color-palette-outline" class="empty-icon"></ion-icon>
+      <h3 class="empty-title">Ainda não tens designs</h3>
+      <p class="empty-subtitle">Começa a criar designs personalizados para os teus produtos favoritos</p>
+      <ion-button routerLink="/create-design" color="orange" class="empty-button">Criar primeiro design</ion-button>
+    </div>
+
+  </div>
 </ion-content>

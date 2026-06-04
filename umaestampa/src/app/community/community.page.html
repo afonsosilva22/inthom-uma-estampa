@@ -7,10 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">community</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="empty-state">
+    <ion-icon name="people-circle-outline" color="primary"></ion-icon>
+    <h2>Comunidade a chegar!</h2>
+    <p>Em breve poderás ver as criações de outros utilizadores e partilhar as tuas estampas favoritas com o mundo.</p>
+    <ion-button routerLink="/home" fill="outline">Voltar ao Início</ion-button>
+  </div>
 </ion-content>
