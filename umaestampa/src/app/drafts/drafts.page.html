@@ -40,7 +40,7 @@
             <!-- IMAGEM -->
             <div class="draft-preview">
               <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
-              <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
+              <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" [style.transform]="'translate(-50%, -50%) scale(' + (item.design.scale || 1) + ')'" />
               <ion-badge color="primary" class="draft-badge">Rascunho</ion-badge>
             </div>
 

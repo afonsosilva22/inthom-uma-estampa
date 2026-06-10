@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="dashboard-container">
-    
+
     <!-- Welcome Section -->
     <div class="welcome-section">
       <h1 class="welcome-title">Bem-vindo, {{userName}}! 👋</h1>
@@ -99,7 +99,10 @@
           <ion-col size="12" size-sm="6" size-lg="3" *ngFor="let item of recentDesigns">
             <div class="recent-design-card">
               <div class="image-wrapper">
-                <img [src]="item.design.uploadedImageUrl || item.variant.imageUrl" [alt]="item.product.name" />
+                <!-- Imagem base do produto -->
+                <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
+                <!-- Imagem do utilizador por cima -->
+                <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" [style.transform]="'translate(-50%, -50%) scale(' + (item.design.scale || 1) + ')'" />
               </div>
               <div class="recent-design-info">
                 <h3 class="product-name">{{item.product.name}}</h3>

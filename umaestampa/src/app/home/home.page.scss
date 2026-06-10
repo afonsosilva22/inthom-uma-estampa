@@ -8,7 +8,7 @@
 
 .welcome-section {
   margin-bottom: 30px;
-  
+
   .welcome-title {
     font-size: 28px;
     font-weight: 700;
@@ -16,7 +16,7 @@
     margin-bottom: 8px;
     margin-top: 0;
   }
-  
+
   .welcome-subtitle {
     font-size: 16px;
     color: var(--ion-color-medium);
@@ -26,7 +26,7 @@
 
 .stats-grid {
   margin-bottom: 30px;
-  
+
   ion-col {
     padding: 8px;
   }
@@ -41,11 +41,11 @@
   transition: box-shadow 0.2s ease;
   cursor: pointer;
   height: 100%;
-  
+
   &:hover {
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   }
-  
+
   .icon-box {
     width: 48px;
     height: 48px;
@@ -54,11 +54,11 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-    
+
     ion-icon {
       font-size: 24px;
     }
-    
+
     &.bg-orange {
       background: #ffedd5;
       color: #ea580c;
@@ -80,14 +80,14 @@
       color: #4b5563;
     }
   }
-  
+
   .stat-value {
     font-size: 24px;
     font-weight: 700;
     color: var(--ion-color-dark);
     margin-bottom: 4px;
   }
-  
+
   .stat-label {
     font-size: 14px;
     color: var(--ion-color-medium);
@@ -104,7 +104,7 @@
 
 .quick-actions-section {
   margin-bottom: 30px;
-  
+
   ion-col {
     padding: 8px;
   }
@@ -117,28 +117,28 @@
   transition: box-shadow 0.2s ease;
   cursor: pointer;
   height: 100%;
-  
+
   &:hover {
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   }
-  
+
   .action-icon {
     font-size: 32px;
     margin-bottom: 12px;
   }
-  
+
   .action-title {
     font-size: 16px;
     font-weight: 700;
     margin: 0 0 4px 0;
   }
-  
+
   .action-subtitle {
     font-size: 14px;
     margin: 0;
     opacity: 0.9;
   }
-  
+
   &.action-orange {
     background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
     color: white;
@@ -155,7 +155,7 @@
     background: #f3f4f6;
     border: 1px solid #d1d5db;
     color: var(--ion-color-dark);
-    
+
     .action-subtitle {
       color: var(--ion-color-medium);
     }
@@ -168,23 +168,23 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    
+
     .section-title {
       margin-bottom: 0;
     }
-    
+
     .view-all-link {
       color: #ea580c;
       font-size: 14px;
       font-weight: 600;
       text-decoration: none;
-      
+
       &:hover {
         text-decoration: underline;
       }
     }
   }
-  
+
   ion-col {
     padding: 8px;
   }
@@ -197,11 +197,11 @@
   overflow: hidden;
   transition: box-shadow 0.2s ease;
   height: 100%;
-  
+
   &:hover {
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   }
-  
+
   .image-wrapper {
     aspect-ratio: 1 / 1;
     background: #f1f5f9;
@@ -210,24 +210,35 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    img {
+
+    .product-layer {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
+    }
+
+    .design-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 45%;
+      height: 45%;
+      object-fit: contain;
     }
   }
-  
+
   .recent-design-info {
     padding: 16px;
-    
+
     .product-name {
       font-size: 16px;
       font-weight: 600;
       color: var(--ion-color-dark);
       margin: 0 0 4px 0;
     }
-    
+
     .product-price {
       font-size: 14px;
       color: var(--ion-color-medium);
@@ -242,20 +253,20 @@
   border: 1px solid #e2e8f0;
   padding: 48px 24px;
   text-align: center;
-  
+
   .empty-icon {
     font-size: 48px;
     color: #94a3b8;
     margin-bottom: 16px;
   }
-  
+
   .empty-title {
     font-size: 18px;
     font-weight: 600;
     color: var(--ion-color-dark);
     margin: 0 0 8px 0;
   }
-  
+
   .empty-subtitle {
     font-size: 16px;
     color: var(--ion-color-medium);
@@ -264,7 +275,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .empty-button {
     --background: #ea580c;
     --background-hover: #c2410c;
@@ -284,14 +295,14 @@
   .empty-state .empty-title {
     color: #f8fafc;
   }
-  
+
   .stat-card,
   .recent-design-card,
   .empty-state {
     background: #1e293b;
     border-color: #334155;
   }
-  
+
   .stat-card {
     .icon-box {
       &.bg-orange { background: rgba(234, 88, 12, 0.2); }
@@ -301,13 +312,13 @@
       &.bg-gray { background: rgba(156, 163, 175, 0.2); }
     }
   }
-  
+
   .action-card.action-gray {
     background: #1e293b;
     border-color: #334155;
     color: #f8fafc;
   }
-  
+
   .recent-design-card .image-wrapper {
     background: #0f172a;
   }

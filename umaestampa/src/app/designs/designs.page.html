@@ -42,7 +42,7 @@
             <!-- Imagem base do produto na cor da variante -->
             <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
             <!-- Imagem do utilizador por cima, só aparece se existir -->
-            <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
+            <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" [style.transform]="'translate(-50%, -50%) scale(' + (item.design.scale || 1) + ')'" />
 
             <ion-badge *ngIf="item.design.isPublic" color="success" class="public-badge" style="color: white;">
               Público

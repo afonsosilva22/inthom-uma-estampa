@@ -47,7 +47,7 @@
               <!-- Imagem -->
               <div class="design-preview">
                 <img class="product-layer" [src]="item.variant.imageUrl" [alt]="item.product.name" />
-                <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" />
+                <img *ngIf="item.design.uploadedImageUrl" class="design-layer" [src]="item.design.uploadedImageUrl" [alt]="item.product.name" [style.transform]="'translate(-50%, -50%) scale(' + (item.design.scale || 1) + ')'" />
               </div>
 
               <!-- Info -->
@@ -83,7 +83,7 @@
           <!-- Imagem do design selecionado -->
           <div class="selected-preview">
             <img class="product-layer" [src]="selectedItem.variant.imageUrl" [alt]="selectedItem.product.name" />
-            <img *ngIf="selectedItem.design.uploadedImageUrl" class="design-layer" [src]="selectedItem.design.uploadedImageUrl" [alt]="selectedItem.product.name" />
+            <img *ngIf="selectedItem.design.uploadedImageUrl" class="design-layer" [src]="selectedItem.design.uploadedImageUrl" [alt]="selectedItem.product.name" [style.transform]="'translate(-50%, -50%) scale(' + (selectedItem.design.scale || 1) + ')'" />
           </div>
 
           <h3 class="selected-name">{{ selectedItem.product.name }}</h3>

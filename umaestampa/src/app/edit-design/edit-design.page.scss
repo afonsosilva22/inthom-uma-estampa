@@ -50,6 +50,43 @@
     font-weight: 700;
     margin: 0 0 12px;
   }
+
+  .scale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+
+    .option-title {
+      margin-bottom: 0;
+    }
+
+    .scale-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .scale-value {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #ea580c;
+        background: rgba(234, 88, 12, 0.1);
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+
+      .reset-btn {
+        margin: 0;
+        height: 24px;
+        --padding-start: 4px;
+        --padding-end: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--ion-color-medium);
+        text-transform: uppercase;
+      }
+    }
+  }
 }
 
 .upload-btn {
