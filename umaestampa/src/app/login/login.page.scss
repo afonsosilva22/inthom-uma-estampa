@@ -102,3 +102,46 @@ ion-content {
   margin-top: 8px;
   height: 48px;
 }
+
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: linear-gradient(135deg, #1a0a00, #0a0a1a);
+  }
+
+  .auth-card {
+    background: #1f2937;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .logo p {
+    color: #9ca3af;
+  }
+
+  .tabs {
+    background: #111827;
+
+    button {
+      color: #9ca3af;
+
+      &.active {
+        background: #1f2937;
+        color: #ea580c;
+      }
+    }
+  }
+
+  .form {
+    .field {
+      label {
+        color: #d1d5db;
+      }
+
+      ion-input {
+        --border-color: #374151;
+        --color: #f9fafb;
+        --placeholder-color: #6b7280;
+        --background: #111827;
+      }
+    }
+  }
+}

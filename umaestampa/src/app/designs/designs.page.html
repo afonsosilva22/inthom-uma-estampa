@@ -64,6 +64,14 @@
 
             <!-- AÇÕES -->
             <div class="action-row">
+              <ion-button fill="solid" size="small" color="orange" (click)="handleOrder(item)" title="Encomendar">
+                <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+              </ion-button>
+
+              <ion-button fill="outline" size="small" color="medium" (click)="handleEdit(item)" title="Editar">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+
               <ion-button
                 fill="outline"
                 size="small"
@@ -71,14 +79,6 @@
                 (click)="handleTogglePublic(item.design.id, item.design.isPublic)"
                 [title]="item.design.isPublic ? 'Tornar privado' : 'Tornar público'">
                 <ion-icon slot="icon-only" [name]="item.design.isPublic ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
-              </ion-button>
-
-              <ion-button fill="outline" size="small" color="medium" (click)="handleEdit(item)" title="Editar">
-                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-              </ion-button>
-
-              <ion-button fill="solid" size="small" color="orange" (click)="handleOrder(item)" title="Encomendar">
-                <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
               </ion-button>
 
               <ion-button
