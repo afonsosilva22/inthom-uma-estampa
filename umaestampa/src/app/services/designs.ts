@@ -10,6 +10,7 @@ export interface Design {
   size: string;
   isPublic: boolean;
   status: 'draft' | 'completed';
+  scale?: number;
 }
 
 @Injectable({

@@ -19,6 +19,7 @@ export class EditDesignPage implements OnInit {
   selectedSize: string = '';
   uploadedImageUrl: string | null = null;
   price: number = 0;
+  scale: number = 1;
 
   constructor(
     private router: Router,
@@ -44,9 +45,11 @@ export class EditDesignPage implements OnInit {
         ) || this.product.variants[0];
         this.selectedSize = this.existingDesign.size;
         this.uploadedImageUrl = this.existingDesign.uploadedImageUrl;
+        this.scale = this.existingDesign.scale || 1;
       } else {
         this.selectedVariant = this.product.variants[0];
         this.selectedSize = this.product.sizes[0] || 'M';
+        this.scale = 1;
       }
 
       this.calculatePrice();
@@ -91,6 +94,7 @@ export class EditDesignPage implements OnInit {
       size: this.selectedSize,
       isPublic: this.existingDesign?.isPublic || false,
       status: status,
+      scale: this.scale,
     };
   }
 
