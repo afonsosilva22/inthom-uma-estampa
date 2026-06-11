@@ -26,6 +26,10 @@ export class Designs {
 
   private initPromise: Promise<void> | null = null;
 
+  /**
+  * inicializa o serviço de storage e carrega os designs guardados
+  * garante que a inicialização só acontece uma vez
+  */
   init(): Promise<void> {
     if (!this.initPromise) {
       this.initPromise = this.doInit();
@@ -33,52 +37,66 @@ export class Designs {
     return this.initPromise;
   }
 
+  // configura o driver sqlite e carrega os designs guardados
   private async doInit() {
     await this.storage.defineDriver(CordovaSQLiteDriver);
     await this.storage.create();
+
     const designs = await this.storage.get('designs');
+
     if (designs) {
       this.designs = designs;
     }
   }
 
+  // devolve todos os designs concluídos
   getDesigns(): Design[] {
     return this.designs.filter(d => d.status === 'completed');
   }
 
+  // devolve todos os rascunhos
   getDrafts(): Design[] {
     return this.designs.filter(d => d.status === 'draft');
   }
 
+  // procura um design pelo id e devolve-o, ou undefined se não existir
   getById(id: string): Design | undefined {
     return this.designs.find(d => d.id === id);
   }
 
+  // devolve todos os designs armazenados
   getAll(): Design[] {
     return this.designs;
   }
 
+  // adiciona um novo design ao storage e atualiza a lista de designs
   async insertDesign(design: Design): Promise<void> {
     if (!design.id) {
       design.id = Date.now().toString();
     }
+
     this.designs.push(design);
     await this.storage.set('designs', this.designs);
   }
 
+  // atualiza os dados de um design existente e guarda as alterações no storage
   async updateDesign(id: string, changes: Partial<Design>): Promise<void> {
     const design = this.designs.find(d => d.id === id);
+
     if (design) {
       Object.assign(design, changes);
       await this.storage.set('designs', this.designs);
     }
   }
 
+  
+  // remove um design do storage e atualiza a lista de designs
   async deleteDesign(id: string): Promise<void> {
     const index = this.designs.findIndex(d => d.id === id);
+
     if (index >= 0) {
       this.designs.splice(index, 1);
-      await this.storage.set('designs', this.designs);
+    await this.storage.set('designs', this.designs);
     }
   }
 }

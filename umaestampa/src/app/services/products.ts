@@ -28,6 +28,7 @@ export class Products {
 
   private initPromise: Promise<void> | null = null;
 
+  // inicializa o carregamento dos produtos do ficheiro json, garantindo que a inicialização só acontece uma vez
   init(): Promise<void> {
     if (!this.initPromise) {
       this.initPromise = this.doInit();
@@ -35,6 +36,7 @@ export class Products {
     return this.initPromise;
   }
 
+  // carrega os produtos do ficheiro json e guarda-os na variável de instância, lidando com erros de carregamento
   private async doInit(): Promise<void> {
     await fetch('./assets/data/products.json')
       .then(res => res.json())
@@ -46,10 +48,12 @@ export class Products {
       });
   }
 
+  // devolve todos os produtos carregados
   getProducts(): Product[] {
     return this.products;
   }
 
+  // procura um produto pelo identificador e devolve-o, ou undefined se não existir
   getById(id: string): Product | undefined {
     return this.products.find(p => p.id === id);
   }
